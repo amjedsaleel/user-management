@@ -1,0 +1,13 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+#sign-up .form-group {
+    margin-bottom: 10px;
+}
+
+.asteriskField {
+    margin-left: 3px;
+    color: red;
+}
