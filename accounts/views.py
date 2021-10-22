@@ -1,6 +1,7 @@
 # Django
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 # local Django
@@ -10,6 +11,9 @@ from . forms import CustomUserCreationForm
 
 
 def login_fun(request):
+    if request.user.is_authenticated:
+        return redirect('user:index')
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -36,9 +40,9 @@ def signup(request):
     return render(request, 'accounts/signup.html', context)
 
 
+@login_required
 def sign_out(request):
     if request.method == "POST":
         logout(request)
         messages.success(request, 'Successfully logged out')
         return redirect('accounts:login')
-
