@@ -22,6 +22,8 @@ def login_fun(request):
         if user is not None:
             login(request, user)
             return redirect('user:index')
+
+        messages.error(request, 'Invalid credentials, Please try again.')
     return render(request, 'accounts/login.html')
 
 
