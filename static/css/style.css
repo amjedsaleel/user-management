@@ -3,7 +3,8 @@
     margin: 0;
 }
 
-#sign-up .error {
+#sign-up .error,
+#login-form .error {
     color: red;
     font-size: 15px;
 }

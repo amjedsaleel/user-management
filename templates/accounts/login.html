@@ -30,3 +30,19 @@
         </div>
     </div>
 {% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $("#login-form").validate({
+                rules: {
+                    username: {
+                        required: true,
+                    },
+                    password: {
+                        required: true,
+                    },
+                }
+            })
+        })
+    </script>
+{% endblock %}
