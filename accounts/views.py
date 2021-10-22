@@ -16,6 +16,7 @@ def login_fun(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            return redirect('user:index')
     return render(request, 'accounts/login.html')
 
 
