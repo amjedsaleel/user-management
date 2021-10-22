@@ -22,3 +22,34 @@
         </div>
     </div>
 {% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $("#sign-up").validate({
+                rules: {
+                    username: {
+                        required: true,
+                    },
+                    first_name: {
+                        required: true,
+                    },
+                    last_name: {
+                        required: true,
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password1: {
+                        required: true,
+                        minlength: 8,
+                    },
+                    password2: {
+                        required: true,
+                    }
+                },
+            })
+        })
+    </script>
+{% endblock %}

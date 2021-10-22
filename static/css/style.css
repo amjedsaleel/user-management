@@ -3,6 +3,11 @@
     margin: 0;
 }
 
+#sign-up .error {
+    color: red;
+    font-size: 15px;
+}
+
 #sign-up .form-group {
     margin-bottom: 10px;
 }
