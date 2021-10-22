@@ -1,6 +1,7 @@
 # Django
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
 # local Django
 from . forms import CustomUserCreationForm
@@ -27,6 +28,7 @@ def signup(request):
         form = CustomUserCreationForm(request.POST, use_required_attribute=False)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Successfully account is created')
             return redirect('accounts:login')
     context = {
         'form': form

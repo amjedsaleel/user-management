@@ -9,6 +9,7 @@
                         <div class="text-center">
                             <h2>Login</h2>
                         </div>
+                        {% include 'includes/messages.html' %}
                         <form class="row g-3" action="{% url 'accounts:login' %}" method="post" id="login-form">
                             {% csrf_token %}
                             <div class="col-md-12 py-2">
