@@ -14,8 +14,7 @@ class CustomUserCreationForm(UserCreationForm):
                                 widget=forms.TextInput(attrs={'placeholder': 'Enter your last name'}))
     email = forms.CharField(required=True, widget=forms.EmailInput(attrs={'placeholder': 'Enter your email'}))
     password1 = forms.CharField(label='Password', required=True,
-                                widget=forms.PasswordInput(attrs={'placeholder': 'Enter your password'}),
-                                help_text='Password must be alphanumeric, Password must contain at least 8 characters')
+                                widget=forms.PasswordInput(attrs={'placeholder': 'Enter your password'}))
     password2 = forms.CharField(label='Confirm password', required=True, widget=forms.PasswordInput)
 
     class Meta:
