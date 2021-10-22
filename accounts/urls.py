@@ -8,5 +8,6 @@ app_name = 'accounts'
 
 urlpatterns = [
     path('login/', views.login_fun, name='login'),
-    path('signup/', views.signup, name='signup')
+    path('signup/', views.signup, name='signup'),
+    path('logout/', views.sign_out, name='logout')
 ]

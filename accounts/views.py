@@ -1,6 +1,6 @@
 # Django
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 # local Django
@@ -34,4 +34,11 @@ def signup(request):
         'form': form
     }
     return render(request, 'accounts/signup.html', context)
+
+
+def sign_out(request):
+    if request.method == "POST":
+        logout(request)
+        messages.success(request, 'Successfully logged out')
+        return redirect('accounts:login')
 
