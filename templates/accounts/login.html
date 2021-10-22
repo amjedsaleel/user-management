@@ -20,8 +20,11 @@
                                 <label for="inputPassword" class="form-label">Password</label>
                                 <input type="password" class="form-control" name="password">
                             </div>
+                            <div>
+                                <a href="{% url 'accounts:signup' %}">Create a new account</a>
+                            </div>
                             <div class="col-12 text-center">
-                                <input type="submit" class="btn btn-primary" value="Login">
+                                <input type="submit" class="btn btn-primary w-50" value="Login">
                             </div>
                         </form>
                     </div>
