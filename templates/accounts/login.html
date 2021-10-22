@@ -1,5 +1,31 @@
 {% extends 'base.html' %}
 {% block title %} Login {% endblock %}
 {% block content %}
-    <h1>Login</h1>
+    <div class="container" id="login">
+        <div class="row">
+            <div class="col-12">
+                <div class="wrapper">
+                    <div class="login-box bg-white shadow p-3 mb-5 bg-body rounded">
+                        <div class="text-center">
+                            <h2>Login</h2>
+                        </div>
+                        <form class="row g-3" action="{% url 'accounts:login' %}" method="post" id="login-form">
+                            {% csrf_token %}
+                            <div class="col-md-12 py-2">
+                                <label for="inputEmail4" class="form-label">Username</label>
+                                <input type="text" class="form-control" name="username">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="inputPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" name="password">
+                            </div>
+                            <div class="col-12 text-center">
+                                <input type="submit" class="btn btn-primary" value="Login">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
