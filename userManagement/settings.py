@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # Installed apps
     'accounts.apps.AccountsConfig',
     'user.apps.UserConfig',
+    'adminpanel.apps.AdminpanelConfig',
 
     # Installed via pip
     'crispy_forms',
