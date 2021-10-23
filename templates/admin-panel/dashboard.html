@@ -29,7 +29,8 @@
                             <td class="">
                                 <a href="{% url 'admin-panel:user-profile' user.username %}"><span
                                         class="material-icons-outlined text-primary">visibility</span></a>
-                                <a href="#"><span class="material-icons-outlined text-warning">edit</span></a>
+                                <a href="{% url 'admin-panel:update-user' user.username %}"><span
+                                        class="material-icons-outlined text-warning">edit</span></a>
                                 <a href="#"><span class="material-icons-outlined text-danger">delete</span></a>
                             </td>
                             <td>
