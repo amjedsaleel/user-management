@@ -12,6 +12,10 @@ from . forms import CustomUserCreationForm
 
 def login_fun(request):
     if request.user.is_authenticated:
+
+        if request.user.groups.filter(name='admin').exists():
+            return redirect('admin-panel:dashboard')
+
         return redirect('user:index')
 
     if request.method == 'POST':
@@ -21,6 +25,10 @@ def login_fun(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+
+            if request.user.groups.filter(name='admin').exists():
+                return redirect('admin-panel:dashboard')
+
             return redirect('user:index')
 
         messages.error(request, 'Invalid credentials, Please try again.')
