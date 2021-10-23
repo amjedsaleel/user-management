@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} User | {{ user.first_name }}  {% endblock %}
+{% block content %}
+    {% include 'includes/navbar.html' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 ">
+                <div class="card">
+                    <div class="text-center">
+                        <img src="{% static 'images/profile.jpeg' %}" class="card-img-top rounded" alt="...">
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped table-hover table-borderless">
+                            <tbody>
+                            <tr>
+                                <td class="fw-bold">Username:</td>
+                                <td>{{ user.username }}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">First Name:</td>
+                                <td>{{ user.first_name }}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Last Name:</td>
+                                <td>{{ user.last_name }}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Email:</td>
+                                <td>{{ user.email }}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Status:</td>
+                                <td>
+                                    {% if user.is_active %}
+                                        Active User
+                                    {% else %}
+                                        Blocked User
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

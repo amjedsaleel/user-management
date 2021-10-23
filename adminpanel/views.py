@@ -13,3 +13,11 @@ def dashboard(request):
         'users': users
     }
     return render(request, 'admin-panel/dashboard.html', context)
+
+
+def user_profile(request, username):
+    user = User.objects.get(username=username)
+    context = {
+        'user': user
+    }
+    return render(request, 'admin-panel/user-profile.html', context)
