@@ -21,14 +21,16 @@ def login_fun(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
 
             if request.user.groups.filter(name='admin').exists():
+                messages.success(request, 'Successfully Logged In')
                 return redirect('admin-panel:dashboard')
 
+            messages.success(request, 'Successfully Logged In')
             return redirect('user:index')
 
         messages.error(request, 'Invalid credentials, Please try again.')
