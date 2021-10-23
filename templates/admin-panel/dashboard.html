@@ -20,48 +20,22 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>admin</td>
-                        <td>Admin</td>
-                        <td>admin@admin.com</td>
-                        <td class="">
-                            <a href="#"><span class="material-icons-outlined text-primary">visibility</span></a>
-                            <a href="#"><span class="material-icons-outlined text-warning">edit</span></a>
-                            <a href="#"><span class="material-icons-outlined text-danger">delete</span></a>
-                        </td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-danger">Block</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>admin</td>
-                        <td>Admin</td>
-                        <td>admin@admin.com</td>
-                        <td class="">
-                            <a href="#"><span class="material-icons-outlined text-primary">visibility</span></a>
-                            <a href="#"><span class="material-icons-outlined text-warning">edit</span></a>
-                            <a href="#"><span class="material-icons-outlined text-danger">delete</span></a>
-                        </td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-danger">Block</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>admin</td>
-                        <td>Admin</td>
-                        <td>admin@admin.com</td>
-                        <td class="">
-                            <a href="#"><span class="material-icons-outlined text-primary">visibility</span></a>
-                            <a href="#"><span class="material-icons-outlined text-warning">edit</span></a>
-                            <a href="#"><span class="material-icons-outlined text-danger">delete</span></a>
-                        </td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-danger">Block</a>
-                        </td>
-                    </tr>
+                    {% for user in users %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.first_name | default:'---'}}</td>
+                            <td>{{ user.email }}</td>
+                            <td class="">
+                                <a href="#"><span class="material-icons-outlined text-primary">visibility</span></a>
+                                <a href="#"><span class="material-icons-outlined text-warning">edit</span></a>
+                                <a href="#"><span class="material-icons-outlined text-danger">delete</span></a>
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-danger">Block</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
