@@ -11,6 +11,10 @@ from .forms import UpdateUser
 
 
 def admin_login(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            return redirect('admin-panel:dashboard')
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
