@@ -3,6 +3,7 @@
 {% block content %}
     {% include 'includes/navbar.html' %}
     <div class="container">
+        {% include 'includes/messages.html' %}
         <h2>Welcome, {{ request.user }}</h2>
     </div>
 {% endblock %}
