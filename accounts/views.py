@@ -12,10 +12,6 @@ from . forms import CustomUserCreationForm
 
 def login_fun(request):
     if request.user.is_authenticated:
-
-        if request.user.groups.filter(name='admin').exists():
-            return redirect('admin-panel:dashboard')
-
         return redirect('user:index')
 
     if request.method == 'POST':
@@ -25,10 +21,6 @@ def login_fun(request):
 
         if user is not None:
             login(request, user)
-
-            if request.user.groups.filter(name='admin').exists():
-                messages.success(request, 'Successfully Logged In')
-                return redirect('admin-panel:dashboard')
 
             messages.success(request, 'Successfully Logged In')
             return redirect('user:index')
@@ -55,6 +47,11 @@ def signup(request):
 @login_required
 def sign_out(request):
     if request.method == "POST":
+        admin = False
+        if request.user.is_superuser:
+            admin = True
         logout(request)
         messages.success(request, 'Successfully logged out')
+        if admin:
+            return redirect('admin-panel:admin-login')
         return redirect('accounts:login')

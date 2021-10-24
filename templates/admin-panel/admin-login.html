@@ -10,7 +10,8 @@
                             <h2>Admin Login</h2>
                         </div>
                         {% include 'includes/messages.html' %}
-                        <form class="row g-3" action="{% url 'accounts:login' %}" method="post" id="login-form">
+                        <form class="row g-3" action="{% url 'admin-panel:admin-login' %}" method="post"
+                              id="login-form">
                             {% csrf_token %}
                             <div class="col-md-12 py-2">
                                 <label for="inputEmail4" class="form-label">Username</label>

@@ -3,13 +3,34 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 
 # local Django
 from .forms import UpdateUser
 # Create your views here.
 
 
-@login_required
+def admin_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+
+            if request.user.is_superuser:
+                messages.success(request, 'Successfully Logged In')
+                return redirect('admin-panel:dashboard')
+            else:
+                messages.error(request, 'You are not admin user')
+                return redirect('admin-panel:admin-login')
+
+        messages.error(request, 'Invalid credentials, Please try again.')
+    return render(request, 'admin-panel/admin-login.html')
+
+
+@login_required(login_url='admin-panel:admin-login')
 def dashboard(request):
     users = User.objects.all()
     context = {
@@ -18,7 +39,7 @@ def dashboard(request):
     return render(request, 'admin-panel/dashboard.html', context)
 
 
-@login_required
+@login_required(login_url='admin-panel:admin-login')
 def user_profile(request, username):
     user = User.objects.get(username=username)
     context = {
@@ -27,7 +48,7 @@ def user_profile(request, username):
     return render(request, 'admin-panel/user-profile.html', context)
 
 
-@login_required
+@login_required(login_url='admin-panel:admin-login')
 def update_user(request, username):
     user = User.objects.get(username=username)
     form = UpdateUser(instance=user)
