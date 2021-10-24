@@ -4,7 +4,8 @@
 }
 
 #sign-up .error,
-#login-form .error {
+#login-form .error,
+#update .error{
     color: red;
     font-size: 15px;
 }
