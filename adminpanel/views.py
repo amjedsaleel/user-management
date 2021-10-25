@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.core.exceptions import ObjectDoesNotExist
+
 
 # local Django
 from .forms import UpdateUser
@@ -74,7 +76,10 @@ def update_user(request, username):
 @login_required(login_url='admin-panel:admin-login')
 @admin_only
 def delete_user(request, username):
-    user = User.objects.get(username=username)
+    try:
+        user = User.objects.get(username=username)
+    except ObjectDoesNotExist:
+        return redirect('admin-panel:dashboard')
 
     if request.method == 'POST':
         User.objects.get(username=username).delete()
