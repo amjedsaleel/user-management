@@ -6,10 +6,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.core.exceptions import ObjectDoesNotExist
 
-
 # local Django
 from .forms import UpdateUser
 from .decorators import admin_only
+
+
 # Create your views here.
 
 
@@ -105,3 +106,13 @@ def unblock_user(request, pk):
     user.is_active = True
     user.save()
     return redirect('admin-panel:dashboard')
+
+
+def search_user(request):
+    search_key = request.GET.get('search')
+    users = User.objects.filter(username__icontains=search_key) | User.objects.filter(
+        first_name__icontains=search_key) | User.objects.filter(email__icontains=search_key)
+    context = {
+        'users': users
+    }
+    return render(request, 'admin-panel/search.html', context)
