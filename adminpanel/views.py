@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login
 
 # local Django
 from .forms import UpdateUser
+from .decorators import admin_only
 # Create your views here.
 
 
@@ -35,6 +36,7 @@ def admin_login(request):
 
 
 @login_required(login_url='admin-panel:admin-login')
+@admin_only
 def dashboard(request):
     users = User.objects.all()
     context = {
@@ -44,6 +46,7 @@ def dashboard(request):
 
 
 @login_required(login_url='admin-panel:admin-login')
+@admin_only
 def user_profile(request, username):
     user = User.objects.get(username=username)
     context = {
@@ -53,6 +56,7 @@ def user_profile(request, username):
 
 
 @login_required(login_url='admin-panel:admin-login')
+@admin_only
 def update_user(request, username):
     user = User.objects.get(username=username)
     form = UpdateUser(instance=user)
@@ -68,6 +72,7 @@ def update_user(request, username):
 
 
 @login_required(login_url='admin-panel:admin-login')
+@admin_only
 def delete_user(request, username):
     user = User.objects.get(username=username)
 

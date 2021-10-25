@@ -19,6 +19,10 @@ def login_fun(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
 
+        if user.is_superuser:
+            messages.error(request, 'Invalid credentials')
+            return redirect('accounts:login')
+
         if user is not None:
             login(request, user)
 
