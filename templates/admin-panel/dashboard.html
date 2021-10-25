@@ -31,10 +31,16 @@
                                         class="material-icons-outlined text-primary">visibility</span></a>
                                 <a href="{% url 'admin-panel:update-user' user.username %}"><span
                                         class="material-icons-outlined text-warning">edit</span></a>
-                                <a href="{% url 'admin-panel:delete-user' user.username %}"><span class="material-icons-outlined text-danger">delete</span></a>
+                                <a href="{% url 'admin-panel:delete-user' user.username %}"><span
+                                        class="material-icons-outlined text-danger">delete</span></a>
                             </td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-danger">Block</a>
+                                {% if user.is_active %}
+                                    <a href="{% url 'admin-panel:block-user' user.id %}" class="btn btn-sm btn-danger">Block</a>
+                                {% else %}
+                                    <a href="{% url 'admin-panel:unblock-user' user.id %}"
+                                       class="btn btn-sm btn-warning">Unblock</a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}

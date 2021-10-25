@@ -40,7 +40,7 @@ def admin_login(request):
 @login_required(login_url='admin-panel:admin-login')
 @admin_only
 def dashboard(request):
-    users = User.objects.all()
+    users = User.objects.all().order_by('-id')
     context = {
         'users': users
     }
@@ -87,3 +87,21 @@ def delete_user(request, username):
         return redirect('admin-panel:dashboard')
     context = {'user': user}
     return render(request, 'admin-panel/delete.html', context)
+
+
+@login_required(login_url='admin-panel:admin-login')
+@admin_only
+def block_user(request, pk):
+    user = User.objects.get(id=pk)
+    user.is_active = False
+    user.save()
+    return redirect('admin-panel:dashboard')
+
+
+@login_required(login_url='admin-panel:admin-login')
+@admin_only
+def unblock_user(request, pk):
+    user = User.objects.get(id=pk)
+    user.is_active = True
+    user.save()
+    return redirect('admin-panel:dashboard')
