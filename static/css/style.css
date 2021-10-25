@@ -5,7 +5,8 @@
 
 #sign-up .error,
 #login-form .error,
-#update .error{
+#update .error,
+#add-user .error{
     color: red;
     font-size: 15px;
 }

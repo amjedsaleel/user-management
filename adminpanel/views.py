@@ -9,6 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 # local Django
 from .forms import UpdateUser
 from .decorators import admin_only
+from accounts.forms import CustomUserCreationForm
 
 
 # Create your views here.
@@ -108,6 +109,8 @@ def unblock_user(request, pk):
     return redirect('admin-panel:dashboard')
 
 
+@login_required(login_url='admin-panel:admin-login')
+@admin_only
 def search_user(request):
     search_key = request.GET.get('search')
     users = User.objects.filter(username__icontains=search_key) | User.objects.filter(
@@ -116,3 +119,19 @@ def search_user(request):
         'users': users
     }
     return render(request, 'admin-panel/search.html', context)
+
+
+@login_required(login_url='admin-panel:admin-login')
+@admin_only
+def add_user(request):
+    form = CustomUserCreationForm()
+
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Successfully added an new user.')
+            return redirect('admin-panel:dashboard')
+    context = {'form': form}
+    return render(request, 'admin-panel/add-user.html', context)
