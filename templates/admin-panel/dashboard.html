@@ -31,7 +31,7 @@
                                         class="material-icons-outlined text-primary">visibility</span></a>
                                 <a href="{% url 'admin-panel:update-user' user.username %}"><span
                                         class="material-icons-outlined text-warning">edit</span></a>
-                                <a href="#"><span class="material-icons-outlined text-danger">delete</span></a>
+                                <a href="{% url 'admin-panel:delete-user' user.username %}"><span class="material-icons-outlined text-danger">delete</span></a>
                             </td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-danger">Block</a>

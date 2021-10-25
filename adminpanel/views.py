@@ -65,3 +65,15 @@ def update_user(request, username):
             return redirect('admin-panel:dashboard')
     context = {'form': form}
     return render(request, 'admin-panel/update-user.html', context)
+
+
+@login_required(login_url='admin-panel:admin-login')
+def delete_user(request, username):
+    user = User.objects.get(username=username)
+
+    if request.method == 'POST':
+        User.objects.get(username=username).delete()
+        messages.success(request, 'Successfully deleted the user')
+        return redirect('admin-panel:dashboard')
+    context = {'user': user}
+    return render(request, 'admin-panel/delete.html', context)
