@@ -34,6 +34,12 @@ def login_fun(request):
 
 
 def signup(request):
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            return redirect('admin-panel:dashboard')
+        else:
+            return redirect('user:index')
+
     form = CustomUserCreationForm(use_required_attribute=False)
 
     if request.method == "POST":
