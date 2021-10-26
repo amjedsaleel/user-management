@@ -2,7 +2,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
+
 
 # local Django
 from . forms import CustomUserCreationForm
@@ -17,6 +20,16 @@ def login_fun(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+
+        try:
+            user = User.objects.get(username=username)
+
+            if not user.is_active:
+                messages.error(request, 'This user is blocked')
+                return redirect('accounts:login')
+        except ObjectDoesNotExist:
+            pass
+
         user = authenticate(request, username=username, password=password)
 
         if user is not None and user.is_superuser:
