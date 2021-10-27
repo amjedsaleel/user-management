@@ -25,15 +25,20 @@ def admin_login(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
 
+        try:
+            super_user = User.objects.get(username=username)
+            if not super_user.is_superuser:
+                messages.error(request, 'You are not admin user')
+                return redirect('admin-panel:admin-login')
+        except ObjectDoesNotExist:
+            pass
+
         if user is not None:
             login(request, user)
 
             if request.user.is_superuser:
                 messages.success(request, 'Successfully Logged In')
                 return redirect('admin-panel:dashboard')
-            else:
-                messages.error(request, 'You are not admin user')
-                return redirect('admin-panel:admin-login')
 
         messages.error(request, 'Invalid credentials, Please try again.')
     return render(request, 'admin-panel/admin-login.html')
