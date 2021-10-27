@@ -35,10 +35,9 @@ def admin_login(request):
 
         if user is not None:
             login(request, user)
-
-            if request.user.is_superuser:
-                messages.success(request, 'Successfully Logged In')
-                return redirect('admin-panel:dashboard')
+            request.session['admin'] = 'admin'
+            messages.success(request, 'Successfully Logged In')
+            return redirect('admin-panel:dashboard')
 
         messages.error(request, 'Invalid credentials, Please try again.')
     return render(request, 'admin-panel/admin-login.html')
