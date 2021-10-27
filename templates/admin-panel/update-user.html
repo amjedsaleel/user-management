@@ -15,8 +15,7 @@
                         {{ form | crispy }}
                         <div class="d-flex">
                             <a href="{% url 'admin-panel:dashboard' %}" class="btn btn-primary mt-4 px-4">Cancel</a>
-                            <input type="submit" class="btn btn-primary mt-4 ms-4 px-4" value="Update"
-                                   onclick="return confirm('Are you sure to Update the user');">
+                            <input type="submit" class="btn btn-primary mt-4 ms-4 px-4" value="Update">
                         </div>
                     </form>
                 </div>
@@ -24,25 +23,6 @@
         </div>
     </div>
 
-     <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p id="modal-body-content"><span class="text-danger" id="subtext"></span></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a href="" class="btn btn-danger" id="delete">Delete</a>
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock %}
 
 {% block script %}
@@ -66,9 +46,5 @@
                 }
             })
         })
-
-        function updateUser(id, first_name) {
-
-        }
     </script>
 {% endblock %}

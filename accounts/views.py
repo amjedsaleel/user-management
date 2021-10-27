@@ -32,11 +32,11 @@ def login_fun(request):
 
         user = authenticate(request, username=username, password=password)
 
-        if user.is_superuser:
-            messages.error(request, 'Invalid credentials')
-            return redirect('accounts:login')
-
         if user is not None:
+            if user.is_superuser:
+                messages.error(request, 'Invalid credentials')
+                return redirect('accounts:login')
+
             login(request, user)
             messages.success(request, 'Successfully Logged In')
             return redirect('user:index')
