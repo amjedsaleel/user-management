@@ -9,7 +9,6 @@ app_name = 'admin-panel'
 urlpatterns = [
     path('', views.admin_login, name='admin-login'),
     path('dashbaord/', views.dashboard, name='dashboard'),
-    path('search/', views.search_user, name='search-user'),
     path('add-user/', views.add_user, name='add-user'),
     path('<str:username>/', views.user_profile, name='user-profile'),
     path('update/<str:username>/', views.update_user, name='update-user'),

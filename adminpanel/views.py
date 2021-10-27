@@ -113,20 +113,6 @@ def unblock_user(request, pk):
 
 @login_required(login_url='admin-panel:admin-login')
 @admin_only
-@never_cache
-def search_user(request):
-    search_key = request.GET.get('search')
-
-    users = User.objects.filter(username__icontains=search_key) | User.objects.filter(
-        first_name__icontains=search_key) | User.objects.filter(email__icontains=search_key)
-    context = {
-        'users': users
-    }
-    return render(request, 'admin-panel/search.html', context)
-
-
-@login_required(login_url='admin-panel:admin-login')
-@admin_only
 def add_user(request):
     form = CustomUserCreationForm()
 
