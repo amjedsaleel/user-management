@@ -38,7 +38,6 @@ def login_fun(request):
 
         if user is not None:
             login(request, user)
-            request.session['user'] = 'user'
             messages.success(request, 'Successfully Logged In')
             return redirect('user:index')
 
@@ -71,16 +70,14 @@ def signup(request):
 def sign_out(request):
     if request.method == "POST":
         admin = False
-        messages.success(request, 'Successfully logged out')
 
         if request.user.is_superuser:
             admin = True
 
+        logout(request)
+        messages.success(request, 'Successfully logged out')
+
         if admin:
-            del request.session['admin']
-            logout(request)
             return redirect('admin-panel:admin-login')
 
-        del request.session['user']
-        logout(request)
         return redirect('accounts:login')

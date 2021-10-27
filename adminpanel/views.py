@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.core.exceptions import ObjectDoesNotExist
@@ -92,7 +93,6 @@ def delete_user(request, username):
     return redirect('admin-panel:dashboard')
 
 
-
 @login_required(login_url='admin-panel:admin-login')
 @admin_only
 def block_user(request, pk):
@@ -113,8 +113,10 @@ def unblock_user(request, pk):
 
 @login_required(login_url='admin-panel:admin-login')
 @admin_only
+@never_cache
 def search_user(request):
     search_key = request.GET.get('search')
+
     users = User.objects.filter(username__icontains=search_key) | User.objects.filter(
         first_name__icontains=search_key) | User.objects.filter(email__icontains=search_key)
     context = {

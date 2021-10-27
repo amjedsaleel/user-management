@@ -8,9 +8,9 @@
 
         <div class="row">
             <div class="col-12">
-                <form action="{% url 'admin-panel:search-user' %}" class="d-flex" method="get">
+                <form action="{% url 'admin-panel:search-user' %}" class="d-flex" method="get" id="search">
                     <div class="col-6">
-                        <input type="text" class="form-control" placeholder="Search" name="search">
+                        <input type="text" class="form-control" placeholder="Search" name="search" required>
                     </div>
                     <div class="col-6">
                         <input type="submit" class="btn btn-primary" value="Search">
