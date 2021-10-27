@@ -13,7 +13,7 @@
                         <input type="text" class="form-control" placeholder="Search" name="search">
                     </div>
                     <div class="col-6">
-                        <input type="submit"  class="btn btn-primary" value="Search">
+                        <input type="submit" class="btn btn-primary" value="Search">
                     </div>
                 </form>
             </div>
@@ -44,15 +44,18 @@
                                         class="material-icons-outlined text-primary">visibility</span></a>
                                 <a href="{% url 'admin-panel:update-user' user.username %}"><span
                                         class="material-icons-outlined text-warning">edit</span></a>
-                                <a href="{% url 'admin-panel:delete-user' user.username %}"><span
+                                <a href="{% url 'admin-panel:delete-user' user.username %}"
+                                   onclick="return confirm('Are you sure to delete  this user');"><span
                                         class="material-icons-outlined text-danger">delete</span></a>
                             </td>
                             <td>
                                 {% if user.is_active %}
-                                    <a href="{% url 'admin-panel:block-user' user.id %}" class="btn btn-sm btn-danger">Block</a>
+                                    <a href="{% url 'admin-panel:block-user' user.id %}" class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Are you sure to block  this user');">Block</a>
                                 {% else %}
                                     <a href="{% url 'admin-panel:unblock-user' user.id %}"
-                                       class="btn btn-sm btn-warning">Unblock</a>
+                                       class="btn btn-sm btn-warning"
+                                       onclick="return confirm('Are you sure to Unblock  this user');">Unblock</a>
                                 {% endif %}
                             </td>
                         </tr>

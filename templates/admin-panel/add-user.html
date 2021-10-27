@@ -13,8 +13,9 @@
                     <form action="{% url 'admin-panel:add-user' %}" method="post" class="p-4" id="add-user">
                         {% csrf_token %}
                         {{ form | crispy }}
-                        <div class="text-center">
-                            <input type="submit" class="btn btn-primary w-50 mt-4" value="Add User">
+                        <div class="">
+                            <a href="{%url 'admin-panel:dashboard' %}" class="btn btn-primary px-4 mt-4">Back</a>
+                            <input type="submit" class="btn btn-primary mt-4 px-4" value="Add User">
                         </div>
                     </form>
                 </div>

@@ -83,16 +83,14 @@ def update_user(request, username):
 @admin_only
 def delete_user(request, username):
     try:
-        user = User.objects.get(username=username)
+        User.objects.get(username=username)
     except ObjectDoesNotExist:
         return redirect('admin-panel:dashboard')
 
-    if request.method == 'POST':
-        User.objects.get(username=username).delete()
-        messages.success(request, 'Successfully deleted the user')
-        return redirect('admin-panel:dashboard')
-    context = {'user': user}
-    return render(request, 'admin-panel/delete.html', context)
+    User.objects.get(username=username).delete()
+    messages.success(request, 'Successfully deleted the user')
+    return redirect('admin-panel:dashboard')
+
 
 
 @login_required(login_url='admin-panel:admin-login')
