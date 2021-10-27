@@ -2,7 +2,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.cache import never_cache
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.core.exceptions import ObjectDoesNotExist
@@ -44,8 +43,8 @@ def admin_login(request):
     return render(request, 'admin-panel/admin-login.html')
 
 
-@login_required(login_url='admin-panel:admin-login')
 @admin_only
+@login_required(login_url='admin-panel:admin-login')
 def dashboard(request):
     users = User.objects.all().order_by('-id')
     context = {
@@ -54,8 +53,8 @@ def dashboard(request):
     return render(request, 'admin-panel/dashboard.html', context)
 
 
-@login_required(login_url='admin-panel:admin-login')
 @admin_only
+@login_required(login_url='admin-panel:admin-login')
 def user_profile(request, username):
     user = User.objects.get(username=username)
     context = {
@@ -64,8 +63,8 @@ def user_profile(request, username):
     return render(request, 'admin-panel/user-profile.html', context)
 
 
-@login_required(login_url='admin-panel:admin-login')
 @admin_only
+@login_required(login_url='admin-panel:admin-login')
 def update_user(request, username):
     user = User.objects.get(username=username)
     form = UpdateUser(instance=user)
@@ -80,8 +79,8 @@ def update_user(request, username):
     return render(request, 'admin-panel/update-user.html', context)
 
 
-@login_required(login_url='admin-panel:admin-login')
 @admin_only
+@login_required(login_url='admin-panel:admin-login')
 def delete_user(request, username):
     try:
         User.objects.get(username=username)
@@ -93,8 +92,8 @@ def delete_user(request, username):
     return redirect('admin-panel:dashboard')
 
 
-@login_required(login_url='admin-panel:admin-login')
 @admin_only
+@login_required(login_url='admin-panel:admin-login')
 def block_user(request, pk):
     user = User.objects.get(id=pk)
     user.is_active = False
@@ -102,8 +101,8 @@ def block_user(request, pk):
     return redirect('admin-panel:dashboard')
 
 
-@login_required(login_url='admin-panel:admin-login')
 @admin_only
+@login_required(login_url='admin-panel:admin-login')
 def unblock_user(request, pk):
     user = User.objects.get(id=pk)
     user.is_active = True
@@ -111,8 +110,8 @@ def unblock_user(request, pk):
     return redirect('admin-panel:dashboard')
 
 
-@login_required(login_url='admin-panel:admin-login')
 @admin_only
+@login_required(login_url='admin-panel:admin-login')
 def add_user(request):
     form = CustomUserCreationForm()
 

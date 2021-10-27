@@ -2,7 +2,11 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Navbar</a>
+                {% if request.user.is_superuser %}
+                    <a class="navbar-brand" href="{% url 'admin-panel:dashboard' %}">Navbar</a>
+                {% else %}
+                    <a class="navbar-brand" href="{% url 'user:index' %}">Navbar</a>
+                {% endif %}
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarTogglerDemo02"
                         aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,11 +15,14 @@
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item ml-4">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            {% if request.user.is_superuser %}
+                                <a class="nav-link active" aria-current="page" href="{% url 'admin-panel:dashboard' %}">Home</a>
+                            {% else %}
+                                <a class="nav-link active" aria-current="page" href="{% url 'user:index' %}">Home</a>
+                            {% endif %}
                         </li>
                         <li class="nav-item">
-                            {#                            <a class="nav-link btn btn-sm btn-light" style="color: black"#}
-                            {#                               href="{% url 'accounts:logout' %}">Logout</a>#}
+
                             <form action="{% url 'accounts:logout' %}" method="post">
                                 {% csrf_token %}
                                 <input type="submit" class="nav-link btn btn-sm btn-light" style="color: black"
