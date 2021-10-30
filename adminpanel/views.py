@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
 
 # local Django
 from .forms import UpdateUser
@@ -69,13 +70,18 @@ def update_user(request, username):
     user = User.objects.get(username=username)
     form = UpdateUser(instance=user)
 
-    if request.method == 'POST':
+    if request.is_ajax():
         form = UpdateUser(request.POST, instance=user)
         if form.is_valid():
             form.save()
             messages.success(request, 'Successfully updated user profile')
-            return redirect('admin-panel:dashboard')
-    context = {'form': form}
+            return JsonResponse({'msg': 'Success'})
+        else:
+            return JsonResponse({'er': form.errors})
+    context = {
+        'form': form,
+        'username': user.username
+    }
     return render(request, 'admin-panel/update-user.html', context)
 
 

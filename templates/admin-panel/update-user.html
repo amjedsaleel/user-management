@@ -10,14 +10,37 @@
                     <div class="text-center mt-4">
                         <h2>Update User</h2>
                     </div>
-                    <form action="" method="post" class="p-4" id="update">
+                    <form onsubmit="preventEvent()" class="p-4" id="update" >
                         {% csrf_token %}
                         {{ form | crispy }}
                         <div class="d-flex">
                             <a href="{% url 'admin-panel:dashboard' %}" class="btn btn-primary mt-4 px-4">Cancel</a>
-                            <input type="submit" class="btn btn-primary mt-4 ms-4 px-4" value="Update">
+                            <input type="button" class="btn btn-primary mt-4 ms-4 px-4" value="Update" data-bs-toggle="modal"
+                                           data-bs-target="#staticBackdrop">
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Update User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-body-content">Are you sure to update this user</p>
+                    <p class="text-danger" id="error-msg"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button onclick="confirmUpdate( '{{ username }}' )" class="btn btn-warning" id="update-button">Update</button>
                 </div>
             </div>
         </div>
@@ -27,6 +50,7 @@
 
 {% block script %}
     <script>
+        console.log(csrftoken)
         $(document).ready(function () {
             $("#update").validate({
                 rules: {
@@ -46,5 +70,32 @@
                 }
             })
         })
+        const preventEvent = (e) => {
+            console.log(e)
+            e.preventDefault()
+        }
+
+
+        function confirmUpdate(id) {
+            document.getElementById("error-msg").style.display = "none"
+            document.getElementById("modal-body-content").style.display = "block"
+
+            $.ajax({
+                type: 'POST',
+                url: '/adminpanel/update/'+id+'/',
+                data: $("#update").serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    if (data.msg === 'Success') {
+                        window.location.replace("{% url 'admin-panel:dashboard' %}");
+                    } else {
+                        console.log(data.er['username'][0])
+                        document.getElementById("error-msg").style.display = "block"
+                        document.getElementById("error-msg").innerHTML = data.er['username'][0]
+                        document.getElementById("modal-body-content").style.display = "none"
+                    }
+                }
+            })
+        }
     </script>
 {% endblock %}
