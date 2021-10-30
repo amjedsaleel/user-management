@@ -38,15 +38,19 @@
                                         class="material-icons-outlined text-primary">visibility</span></a>
                                 <a href="{% url 'admin-panel:update-user' user.username %}"><span
                                         class="material-icons-outlined text-warning">edit</span></a>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span
-                                        class="material-icons-outlined text-danger"
-                                        onclick="deleteUser('{{ user.username }}')">delete</span></a>
+                                {% if not user.is_superuser %}
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span
+                                            class="material-icons-outlined text-danger"
+                                            onclick="deleteUser('{{ user.username }}')">delete</span></a>
+                                {% endif %}
                             </td>
                             <td>
                                 {% if user.is_active %}
-                                    <a href="#" data-bs-toggle="modal"
-                                       data-bs-target="#staticBackdrop" class="btn btn-sm btn-danger"
-                                       onclick="blockUser({{ user.id }}, '{{ user.first_name }}')">Block</a>
+                                    {% if not user.is_superuser %}
+                                        <a href="#" data-bs-toggle="modal"
+                                           data-bs-target="#staticBackdrop" class="btn btn-sm btn-danger"
+                                           onclick="blockUser({{ user.id }}, '{{ user.first_name }}')">Block</a>
+                                    {% endif %}
                                 {% else %}
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                                        class="btn btn-sm btn-warning"
