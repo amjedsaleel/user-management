@@ -19,7 +19,6 @@ def login_fun(request):
     """
     # if request.user.is_authenticated:
     #     return redirect('user:index')
-    print('User login')
     if request.session.has_key('user'):
         return redirect('user:index')
 
@@ -30,10 +29,6 @@ def login_fun(request):
         try:
             user = User.objects.get(username=username)
 
-            if user.is_superuser:
-                messages.error(request, 'Invalid credentials')
-                return redirect('accounts:login')
-
             if not user.is_active:
                 messages.error(request, 'This user is blocked')
                 return redirect('accounts:login')
@@ -41,12 +36,9 @@ def login_fun(request):
             pass
 
         user = authenticate(request, username=username, password=password)
-        print(user)
 
-        if user is not None:
-            user = User.objects.get(username=username)
-            request.session['user'] = 'user'
-            print('Username login', username)
+        if user is not None and not user.is_superuser:
+            request.session['user'] = user.username
             messages.success(request, 'Successfully Logged In')
             return redirect('user:index')
 
@@ -56,7 +48,6 @@ def login_fun(request):
 
 
 def signup(request):
-
     form = CustomUserCreationForm(use_required_attribute=False)
 
     if request.method == "POST":

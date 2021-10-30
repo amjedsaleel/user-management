@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
+from django.views.decorators.cache import never_cache
 
 # local Django
 from .forms import UpdateUser
@@ -15,6 +16,7 @@ from accounts.forms import CustomUserCreationForm
 # Create your views here.
 
 
+@never_cache
 def admin_login(request):
     # if request.user.is_authenticated:
     #     if request.user.is_superuser:
@@ -44,6 +46,7 @@ def admin_login(request):
     return render(request, 'admin-panel/admin-login.html')
 
 
+@never_cache
 @admin_only
 # @login_required(login_url='admin-panel:admin-login')
 def dashboard(request):
@@ -54,7 +57,8 @@ def dashboard(request):
     return render(request, 'admin-panel/dashboard.html', context)
 
 
-# @admin_only
+@never_cache
+@admin_only
 # @login_required(login_url='admin-panel:admin-login')
 def user_profile(request, username):
     user = User.objects.get(username=username)
@@ -64,6 +68,7 @@ def user_profile(request, username):
     return render(request, 'admin-panel/user-profile.html', context)
 
 
+@never_cache
 @admin_only
 # @login_required(login_url='admin-panel:admin-login')
 def update_user(request, username):
@@ -79,12 +84,13 @@ def update_user(request, username):
         else:
             return JsonResponse({'er': form.errors})
     context = {
-        'form': form,
-        'username': user.username
+            'form': form,
+            'username': user.username
     }
     return render(request, 'admin-panel/update-user.html', context)
 
 
+@never_cache
 @admin_only
 # @login_required(login_url='admin-panel:admin-login')
 def delete_user(request, username):
@@ -98,20 +104,18 @@ def delete_user(request, username):
     return redirect('admin-panel:dashboard')
 
 
+@never_cache
 @admin_only
 # @login_required(login_url='admin-panel:admin-login')
 def block_user(request, pk):
     user = User.objects.get(id=pk)
     user.is_active = False
     user.save()
-    try:
-        del request.session['user']
-    except KeyError:
-        pass
 
     return redirect('admin-panel:dashboard')
 
 
+@never_cache
 @admin_only
 # @login_required(login_url='admin-panel:admin-login')
 def unblock_user(request, pk):
@@ -121,6 +125,7 @@ def unblock_user(request, pk):
     return redirect('admin-panel:dashboard')
 
 
+@never_cache
 @admin_only
 # @login_required(login_url='admin-panel:admin-login')
 def add_user(request):

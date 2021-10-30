@@ -1,9 +1,6 @@
 # Django
 from django.shortcuts import render, redirect
-from django.contrib import messages
-
-# local Django
-from .decorators import user_only
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -11,4 +8,13 @@ from .decorators import user_only
 def index(request):
     if not request.session.has_key('user'):
         return redirect('accounts:login')
-    return render(request, 'user/index.html')
+
+    username = request.session['user']
+    user = User.objects.get(username=username)
+    print('Username: ', username)
+
+    if not user.is_active:
+        del request.session['user']
+        return redirect('accounts:login')
+
+    return render(request, 'user/index.html', {'user': user.username})
