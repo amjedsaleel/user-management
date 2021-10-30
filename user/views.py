@@ -9,6 +9,6 @@ from .decorators import user_only
 
 
 @login_required
-@user_only
+# @user_only
 def index(request):
     return render(request, 'user/index.html')

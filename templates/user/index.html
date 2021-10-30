@@ -5,5 +5,8 @@
     <div class="container">
         {% include 'includes/messages.html' %}
         <h2>Welcome, {{ request.user }}</h2>
+        {{ request.session.user }}
+                {{ request.session.admin }}
+
     </div>
 {% endblock %}

@@ -14,7 +14,9 @@ from . forms import CustomUserCreationForm
 
 
 def login_fun(request):
-    if request.user.is_authenticated:
+    # if request.user.is_authenticated:
+    #     return redirect('user:index')
+    if request.session.has_key('user'):
         return redirect('user:index')
 
     if request.method == 'POST':
@@ -38,6 +40,7 @@ def login_fun(request):
                 return redirect('accounts:login')
 
             login(request, user)
+            request.session['user'] = 'user'
             messages.success(request, 'Successfully Logged In')
             return redirect('user:index')
 
@@ -67,17 +70,22 @@ def signup(request):
 
 
 @login_required
-def sign_out(request):
+def user_sign_out(request):
     if request.method == "POST":
-        admin = False
 
-        if request.user.is_superuser:
-            admin = True
-
+        del request.session['user']
         logout(request)
         messages.success(request, 'Successfully logged out')
 
-        if admin:
-            return redirect('admin-panel:admin-login')
+        return redirect('accounts:login')
+    return render(request, 'accounts/login.html')
+
+
+def admin_sign_out(request):
+    if request.method == "POST":
+
+        del request.session['admin']
+        logout(request)
+        messages.success(request, 'Successfully logged out')
 
         return redirect('accounts:login')

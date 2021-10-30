@@ -16,9 +16,11 @@ from accounts.forms import CustomUserCreationForm
 
 
 def admin_login(request):
-    if request.user.is_authenticated:
-        if request.user.is_superuser:
-            return redirect('admin-panel:dashboard')
+    # if request.user.is_authenticated:
+    #     if request.user.is_superuser:
+    #         return redirect('admin-panel:dashboard')
+    if request.session.has_key('admin'):
+        return redirect('admin-panel:dashboard')
 
     if request.method == 'POST':
         username = request.POST.get('username')
