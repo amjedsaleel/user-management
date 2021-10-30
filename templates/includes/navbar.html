@@ -22,20 +22,11 @@
                             {% endif %}
                         </li>
                         <li class="nav-item">
-                            {% if request.session.user %}
-                                <form action="{% url 'accounts:logout' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="submit" class="nav-link btn btn-sm btn-light" style="color: black"
-                                           value="Logout">
-                                </form>
-                            {% else %}
                                 <form action="{% url 'accounts:admin-logout' %}" method="post">
                                     {% csrf_token %}
                                     <input type="submit" class="nav-link btn btn-sm btn-light" style="color: black"
                                            value="Logout">
                                 </form>
-                            {% endif %}
-
                         </li>
                     </ul>
                 </div>

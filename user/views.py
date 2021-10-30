@@ -1,6 +1,6 @@
 # Django
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib import messages
 
 # local Django
 from .decorators import user_only
@@ -8,7 +8,7 @@ from .decorators import user_only
 # Create your views here.
 
 
-@login_required
-# @user_only
 def index(request):
+    if not request.session.has_key('user'):
+        return redirect('accounts:login')
     return render(request, 'user/index.html')

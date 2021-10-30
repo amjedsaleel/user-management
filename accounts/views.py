@@ -1,21 +1,25 @@
 # Django
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 
-
 # local Django
-from . forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm
+from adminpanel.decorators import admin_only
+from user.decorators import user_only
 
 # Create your views here.
 
 
 def login_fun(request):
+    """
+    User login
+    """
     # if request.user.is_authenticated:
     #     return redirect('user:index')
+    print('User login')
     if request.session.has_key('user'):
         return redirect('user:index')
 
@@ -26,6 +30,10 @@ def login_fun(request):
         try:
             user = User.objects.get(username=username)
 
+            if user.is_superuser:
+                messages.error(request, 'Invalid credentials')
+                return redirect('accounts:login')
+
             if not user.is_active:
                 messages.error(request, 'This user is blocked')
                 return redirect('accounts:login')
@@ -33,27 +41,21 @@ def login_fun(request):
             pass
 
         user = authenticate(request, username=username, password=password)
+        print(user)
 
         if user is not None:
-            if user.is_superuser:
-                messages.error(request, 'Invalid credentials')
-                return redirect('accounts:login')
-
-            login(request, user)
+            user = User.objects.get(username=username)
             request.session['user'] = 'user'
+            print('Username login', username)
             messages.success(request, 'Successfully Logged In')
             return redirect('user:index')
 
         messages.error(request, 'Invalid credentials, Please try again.')
+
     return render(request, 'accounts/login.html')
 
 
 def signup(request):
-    if request.user.is_authenticated:
-        if request.user.is_superuser:
-            return redirect('admin-panel:dashboard')
-        else:
-            return redirect('user:index')
 
     form = CustomUserCreationForm(use_required_attribute=False)
 
@@ -69,23 +71,27 @@ def signup(request):
     return render(request, 'accounts/signup.html', context)
 
 
-@login_required
+@user_only
 def user_sign_out(request):
     if request.method == "POST":
+        try:
+            del request.session['user']
+        except KeyError:
+            pass
 
-        del request.session['user']
-        logout(request)
         messages.success(request, 'Successfully logged out')
-
         return redirect('accounts:login')
+
     return render(request, 'accounts/login.html')
 
 
+@admin_only
 def admin_sign_out(request):
     if request.method == "POST":
+        try:
+            del request.session['admin']
+        except KeyError:
+            pass
 
-        del request.session['admin']
-        logout(request)
         messages.success(request, 'Successfully logged out')
-
-        return redirect('accounts:login')
+        return redirect('admin-panel:admin-login')
