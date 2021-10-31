@@ -1,10 +1,13 @@
 # Django
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.views.decorators.cache import never_cache
+
 
 # Create your views here.
 
 
+@never_cache
 def index(request):
     if not request.session.has_key('user'):
         return redirect('accounts:login')

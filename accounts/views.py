@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.cache import never_cache
 
 # local Django
 from .forms import CustomUserCreationForm
@@ -13,6 +14,7 @@ from user.decorators import user_only
 # Create your views here.
 
 
+@never_cache
 def login_fun(request):
     """
     User login
@@ -47,7 +49,11 @@ def login_fun(request):
     return render(request, 'accounts/login.html')
 
 
+@never_cache
 def signup(request):
+    if request.session.has_key('user'):
+        return redirect('user:index')
+
     form = CustomUserCreationForm(use_required_attribute=False)
 
     if request.method == "POST":
@@ -62,6 +68,7 @@ def signup(request):
     return render(request, 'accounts/signup.html', context)
 
 
+@never_cache
 @user_only
 def user_sign_out(request):
     if request.method == "POST":
@@ -76,6 +83,7 @@ def user_sign_out(request):
     return render(request, 'accounts/login.html')
 
 
+@never_cache
 @admin_only
 def admin_sign_out(request):
     if request.method == "POST":
