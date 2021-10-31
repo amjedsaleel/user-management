@@ -16,7 +16,7 @@
                         <div class="d-flex">
                             <a href="{% url 'admin-panel:dashboard' %}" class="btn btn-primary mt-4 px-4">Cancel</a>
                             <input type="button" class="btn btn-primary mt-4 ms-4 px-4" value="Update" data-bs-toggle="modal"
-                                           data-bs-target="#staticBackdrop">
+                                           data-bs-target="#staticBackdrop" onclick="clearModal()">
                         </div>
                     </form>
                 </div>
@@ -50,7 +50,6 @@
 
 {% block script %}
     <script>
-        console.log(csrftoken)
         $(document).ready(function () {
             $("#update").validate({
                 rules: {
@@ -71,14 +70,18 @@
             })
         })
         const preventEvent = (e) => {
-            console.log(e)
+
             e.preventDefault()
+        }
+
+        function clearModal() {
+             console.log('ff')
+            document.getElementById("error-msg").style.display = "None"
+            document.getElementById("modal-body-content").style.display = "block"
         }
 
 
         function confirmUpdate(id) {
-            document.getElementById("error-msg").style.display = "None"
-            document.getElementById("modal-body-content").style.display = "block"
 
             $.ajax({
                 type: 'POST',
